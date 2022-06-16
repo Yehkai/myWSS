@@ -27,12 +27,12 @@ public class AutoMainCmd extends SequentialCommandGroup
 
 	public AutoMainCmd()
     {
-        
         super(
-            new MoveRobot(2, -Math.PI/4, 0, 0, Math.PI),  
-            new MoveRobot(2, Math.PI/4, 0, 0, Math.PI),
-            new LoopCmd(new RotateTest()),
-            new MoveRobot(2, Math.PI/4, 0, 0, Math.PI)
+            new MoveRobot(1, 0.5, 0, 0, 0.4),  
+            new MoveRobot(0, 0.5, 0, 0, 0.4),  
+            new MoveRobot(1, -0.5, 0, 0, 0.4),  
+            new MoveRobot(0, -0.5, 0, 0, 0.4),  
+            new MoveRobot(2, Math.PI*2, 0, 0, Math.PI)
              );
     }
 }

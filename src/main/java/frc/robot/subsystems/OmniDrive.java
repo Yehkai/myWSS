@@ -72,7 +72,7 @@ public class OmniDrive extends SubsystemBase
     //Subsystem for omnidrive
     public OmniDrive() {
 
-        outDebug8 = new DigitalOutput(8);
+        outDebug8 = new DigitalOutput(Constants.DEBUG_PIN);
 
         //Omni drive motors
         motors = new TitanQuad[Constants.MOTOR_NUM];
@@ -171,12 +171,15 @@ public class OmniDrive extends SubsystemBase
      * @param y range -1 to 1 (0 stop)
      * @param z range -1 to 1 (0 stop)
      */
-    public void setRobotSpeedXYW_Open(double x, double y, double z)
+    public void setRobotSpeedXYW_Open(double x, double y, double w)
     {
         // M0 = [-sin(150) cos(150) R] * [x y w]'   //Left-front wheel
         // M1 = [-sin(270) cos(270) R]              //Back wheel
         // M2 = [-sin(30)  cos(30)  R]              //Right-front wheel
-
+        double s0 = (-0.5*x - 0.866025*y + w);
+        double s1 = (     x + 0            + w   );
+        double s2 = (-0.5*x + 0.866025*y + w);
+        setMotorOut012(s0, s1, s2);
     }
 
     /***
@@ -266,7 +269,7 @@ public class OmniDrive extends SubsystemBase
         }
 
         for (int i=0; i<Constants.MOTOR_NUM; i++) {
-            //motors[i].set(motorOuts[i]/max);
+            motors[i].set(motorOuts[i]/max);
             ///////////////////////////////////////////////////////////
             //motors[i].set(0);   //off motor to test encoders manually
         }   

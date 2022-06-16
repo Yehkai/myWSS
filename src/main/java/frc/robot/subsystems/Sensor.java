@@ -30,15 +30,16 @@ public class Sensor extends SubsystemBase
     // Good for debugging
     // Shuffleboard
     private final ShuffleboardTab tab = Shuffleboard.getTab("Sensors");
-    private final NetworkTableEntry D_inputDisp = tab.add("inputDisp", 0).getEntry();
+    private final NetworkTableEntry D_input0Disp = tab.add("input0", false).getEntry();
+    private final NetworkTableEntry D_input1Disp = tab.add("input1", false).getEntry();
     private final NetworkTableEntry D_cntDisp = tab.add("cntDisp", 0).getEntry();
     private final NetworkTableEntry D_servo = tab.add("servo", 0).getEntry();
 
     //Subsystem for sensors
     //This is just an example.
     public Sensor() {
-        input0 = new DigitalInput(8);
-        input1 = new DigitalInput(9);
+        input0 = new DigitalInput(Constants.INPUT0);
+        input1 = new DigitalInput(Constants.INPUT1);
     }
 
     /**
@@ -85,7 +86,8 @@ public class Sensor extends SubsystemBase
         //These display is good for debugging but may slow system down.
         //Good to remove unnecessary display during competition
         i++;
-        D_inputDisp.setBoolean(getSwitch());
+        D_input0Disp.setBoolean(input0.get());
+        D_input1Disp.setBoolean(input1.get());
         D_cntDisp.setNumber(i);
 
     }

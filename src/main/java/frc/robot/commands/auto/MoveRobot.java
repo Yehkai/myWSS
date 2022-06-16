@@ -33,9 +33,9 @@ public class MoveRobot extends CommandBase
      * <p>
      * 
      * @param type - 0, 1 or 2 for x, y, or w speed
-     * @param dist - distance to move
+     * @param dist - distance to move (m/s or rad/s)
      * @param startSpeed -  starting speed of robot
-     * @param endSpeed - ending speed og robot
+     * @param endSpeed - ending speed of robot
      * @param maxSpeed - max speed of robot
      */
     //This move the robot a certain distance following a trapezoidal speed profile.
