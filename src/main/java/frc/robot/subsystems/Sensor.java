@@ -24,6 +24,7 @@ public class Sensor extends SubsystemBase
 
     // Sensors
     private final DigitalInput input0, input1;
+    private final AnalogInput IRsensor0;
     private int i;
 
 
@@ -34,12 +35,14 @@ public class Sensor extends SubsystemBase
     private final NetworkTableEntry D_input1Disp = tab.add("input1", false).getEntry();
     private final NetworkTableEntry D_cntDisp = tab.add("cntDisp", 0).getEntry();
     private final NetworkTableEntry D_servo = tab.add("servo", 0).getEntry();
+    private final NetworkTableEntry D_IRsensor = tab.add("IRsen", 0).getEntry();
 
     //Subsystem for sensors
     //This is just an example.
     public Sensor() {
         input0 = new DigitalInput(Constants.INPUT0);
         input1 = new DigitalInput(Constants.INPUT1);
+        IRsensor0 = new AnalogInput(0);
     }
 
     /**
@@ -73,7 +76,7 @@ public class Sensor extends SubsystemBase
      * @return value between 0 - 100 (valid data range is 10cm - 80cm)
      */
     public double getIRDistance() {
-        return 0;
+        return (Math.pow(IRsensor0.getAverageVoltage(), -1.2045)) * 27.726;
     }
    
     /**
@@ -89,6 +92,7 @@ public class Sensor extends SubsystemBase
         D_input0Disp.setBoolean(input0.get());
         D_input1Disp.setBoolean(input1.get());
         D_cntDisp.setNumber(i);
+        D_IRsensor.setNumber(getIRDistance());
 
     }
 }

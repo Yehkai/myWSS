@@ -24,15 +24,19 @@ import frc.robot.commands.auto.RotateTest;
  */
 public class AutoMainCmd extends SequentialCommandGroup
 {   
+    private double dist = RobotContainer.m_sensor.getIRDistance();
 
 	public AutoMainCmd()
     {
-        super(
-            new MoveRobot(1, 0.5, 0, 0, 0.4),  
-            new MoveRobot(0, 0.5, 0, 0, 0.4),  
-            new MoveRobot(1, -0.5, 0, 0, 0.4),  
-            new MoveRobot(0, -0.5, 0, 0, 0.4),  
-            new MoveRobot(2, Math.PI*2, 0, 0, Math.PI)
-             );
+        super( new LoopCmd(new MoveBack(), ()->RobotContainer.m_sensor.getIRDistance()<60) 
+        );
+
+        // super(
+        //     new MoveRobot(1, 0.5, 0, 0, 0.4),  
+        //     new MoveRobot(0, 0.5, 0, 0, 0.4),  
+        //     new MoveRobot(1, -0.5, 0, 0, 0.4),  
+        //     new MoveRobot(0, -0.5, 0, 0, 0.4),  
+        //     new MoveRobot(2, Math.PI*2, 0, 0, Math.PI)
+        //      );
     }
 }

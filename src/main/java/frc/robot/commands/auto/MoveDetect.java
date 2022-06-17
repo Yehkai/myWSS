@@ -13,29 +13,29 @@ import frc.robot.commands.auto.MoveRobotSense;
  * <p>
  * This class creates the inline auto command to drive the motor
  */
-public class MoveTest extends SequentialCommandGroup
+public class MoveDetect extends SequentialCommandGroup
 {
     private enum CommandSelector {
         ONE, TWO, THREE
     }
 
     static public CommandSelector selectCmd123() {
-        if (RobotContainer.m_sensor.getIRDistance()<30)
+        if (RobotContainer.m_sensor.getIRDistance()<20)
             return CommandSelector.ONE;
-        else if (RobotContainer.m_sensor.getIRDistance()<50)
+        else if (RobotContainer.m_sensor.getIRDistance()<40)
             return CommandSelector.TWO;
         else
             return CommandSelector.THREE;
     }
 
-    // static public Command selectCmd123_B() {
-    //     if (RobotContainer.m_sensor.getIRDistance()<20)
-    //     return new MoveLeft();
-    // else if (RobotContainer.m_sensor.getIRDistance()<40)
-    //     return new MoveBack();
-    // else
-    //     return new MoveRight();
-    // }
+    static public Command selectCmd123_B() {
+        if (RobotContainer.m_sensor.getIRDistance()<20)
+        return new MoveLeft();
+    else if (RobotContainer.m_sensor.getIRDistance()<40)
+        return new MoveBack();
+    else
+        return new MoveRight();
+    }
 
     // Use limit switch to select
     static public boolean selectCmd12_SW() {
@@ -45,12 +45,12 @@ public class MoveTest extends SequentialCommandGroup
     static public boolean selectCmd12_IR() {
         return RobotContainer.m_sensor.getIRDistance()>30?true:false;
     }
-	public MoveTest()
+	public MoveDetect()
     {
 
         super(
-            //new MoveRobotSense(1, 0.5, 0, 0.0, 0.5, ()->RobotContainer.m_sensor.getIRDistance()<60),
-            new MoveRobot(1, 0.5, 0, 0, 0.4),  
+            new MoveRobotSense(1, 0.5, 0, 0.0, 0.5, ()->RobotContainer.m_sensor.getIRDistance()<60),
+
 
             //selectCmd123_B() // Didn't work
 
@@ -61,9 +61,9 @@ public class MoveTest extends SequentialCommandGroup
             //Selection command in selectCmd123
             new SelectCommand(
                 Map.ofEntries(
-                    Map.entry(CommandSelector.ONE, new MoveBack()),
-                    Map.entry(CommandSelector.TWO, new MoveLeft()),
-                    Map.entry(CommandSelector.THREE, new MoveRight()) ),
+                    Map.entry(CommandSelector.ONE, new MoveSq()),
+                    Map.entry(CommandSelector.TWO, new MoveSq()),
+                    Map.entry(CommandSelector.THREE, new MoveSq()) ),
                 MoveTest::selectCmd123
             ) 
         );

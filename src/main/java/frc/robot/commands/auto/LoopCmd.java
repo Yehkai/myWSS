@@ -14,52 +14,49 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class LoopCmd extends CommandBase
 {
     //private final static OmniDrive m_drive = RobotContainer.m_omnidrive;
-    static boolean cmdEndFlag;
     private int state;
-    private boolean scheduleFlag;
     private boolean m_endFlag;
     private SequentialCommandGroup cmd;
+    private final end_func f_ptr;
+    interface end_func {
+        public boolean endCondition();
+    }
 
-	public LoopCmd(SequentialCommandGroup cmdToRun)
+    /***
+     * Sets one of the speeds of the robot
+     * <p>  
+     * @param cmdToRun - SequentialCommandGroup
+     * @param f - function that defines end condition for the loop
+     */
+	public LoopCmd(SequentialCommandGroup cmdToRun, end_func f)
     {
         cmd = cmdToRun;
-        //addRequirements(m_drive);
+        f_ptr = f;
+
     }
     @Override
     public void initialize()
     {
         state=0;
-        scheduleFlag = true;
         m_endFlag = false;
-        cmdEndFlag = false;
+
         // Globals.debug[0]=Globals.debug[1]=Globals.debug[2]=0;
     }
     @Override
     public void execute()
     {
-        if (scheduleFlag==true) {
-            //launch command group
-            //CommandScheduler.getInstance().schedule(cmd);
-            cmd.schedule(false);
-            scheduleFlag = false;
-            cmdEndFlag = false;
-            state++;
-        }
-        else {
 
-            if (cmdEndFlag == true) {
-                //command group finished, reset flag
-                state++;
-                scheduleFlag = true;
-
-                //End condition for loopCmd
-                //In this example, the loop ends after 3 times
-                if (state==6)
-                    m_endFlag = true;
-
+        if (cmd.isScheduled() == false) {
+            //End condition for loopCmd
+            if (f_ptr.endCondition()) {
+                m_endFlag = true;
+            }
+            else {
+                //schedule command
+                cmd.schedule(false);
             }
         }
-        // Globals.debug[0] = state;
+
     }
 
     @Override

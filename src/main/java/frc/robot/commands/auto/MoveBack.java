@@ -14,9 +14,9 @@ public class MoveBack extends SequentialCommandGroup
     public MoveBack()
     {
         super(
-            new MoveRobot(2, Math.PI, 0, 0, Math.PI),  
             new MoveRobot(1, 0.5, 0, 0, 0.5),
-            new MoveRobot(2, -Math.PI, 0, 0, Math.PI)
+            new MoveRobot(2, Math.PI, 0, 0, Math.PI),  
+            new MoveRobot(1, 0.5, 0, 0, 0.5)
             );
     }
 }
