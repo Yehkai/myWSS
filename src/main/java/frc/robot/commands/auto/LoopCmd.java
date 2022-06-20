@@ -17,7 +17,10 @@ public class LoopCmd extends CommandBase
     private int state;
     private boolean m_endFlag;
     private SequentialCommandGroup cmd;
-    private final end_func f_ptr;
+    private final end_func fn_ptr;
+
+    // An interface is an abstract class. All methods are not defined.
+    // This interface defines a method that check for the end condition to terminate this command
     interface end_func {
         public boolean endCondition();
     }
@@ -26,12 +29,12 @@ public class LoopCmd extends CommandBase
      * Sets one of the speeds of the robot
      * <p>  
      * @param cmdToRun - SequentialCommandGroup
-     * @param f - function that defines end condition for the loop
+     * @param fn - function that defines end condition for the loop
      */
-	public LoopCmd(SequentialCommandGroup cmdToRun, end_func f)
+	public LoopCmd(SequentialCommandGroup cmdToRun, end_func fn)
     {
         cmd = cmdToRun;
-        f_ptr = f;
+        fn_ptr = fn;
 
     }
     @Override
@@ -48,7 +51,7 @@ public class LoopCmd extends CommandBase
 
         if (cmd.isScheduled() == false) {
             //End condition for loopCmd
-            if (f_ptr.endCondition()) {
+            if (fn_ptr.endCondition()) {
                 m_endFlag = true;
             }
             else {

@@ -1,5 +1,4 @@
 package frc.robot.commands.auto;
-import frc.robot.commands.auto.MoveRobot;
 
 
 /**
@@ -9,7 +8,9 @@ import frc.robot.commands.auto.MoveRobot;
  */
 public class MoveRobotSense extends MoveRobot
 {
-    private final end_func f_ptr;
+    private final end_func fn_ptr;
+    // An interface is an abstract class. All methods are not defined.
+    // This interface defines a method that check for the end condition to terminate this command
     interface end_func {
         public boolean endCondition();
     }
@@ -24,17 +25,17 @@ public class MoveRobotSense extends MoveRobot
      * @param startSpeed -  starting speed of robot
      * @param endSpeed - ending speed og robot
      * @param maxSpeed - max speed of robot
-     * @param f - function that defines early end condition
+     * @param fn - function that defines early end condition
      */
-    public MoveRobotSense(int type, double dist, double startSpeed, double endSpeed, double maxSpeed, end_func f)
+    public MoveRobotSense(int type, double dist, double startSpeed, double endSpeed, double maxSpeed, end_func fn)
     {
         super(type, dist, startSpeed, endSpeed, maxSpeed);
-        f_ptr = f;
+        fn_ptr = fn;
     }
 
     @Override
     public boolean endCondition()
     {
-        return f_ptr.endCondition();
+        return fn_ptr.endCondition();
     }
 }

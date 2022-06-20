@@ -2,15 +2,6 @@ package frc.robot.commands.auto;
 
 import java.util.List;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 // import the commands
@@ -28,8 +19,17 @@ public class AutoMainCmd extends SequentialCommandGroup
 
 	public AutoMainCmd()
     {
-        super( new LoopCmd(new MoveBack(), ()->RobotContainer.m_sensor.getIRDistance()<60) 
+//        super( new LoopCmd(new MoveBack(), ()->RobotContainer.m_sensor.getIRDistance()<60) 
+//        );
+
+        super( 
+            new MoveServo2(200, 50) ,
+            new MoveServo2(50, 50), 
+            new MoveServo2(250, 50), 
+            new MoveServo2(100, 150) 
+  
         );
+
 
         // super(
         //     new MoveRobot(1, 0.5, 0, 0, 0.4),  
