@@ -23,9 +23,8 @@ public class MoveServo extends CommandBase
     private TrapezoidProfile.Constraints m_constraints;
     private TrapezoidProfile.State m_goal;
     private TrapezoidProfile.State m_setpoint;
-    private int m_dir;
-    private double start_pos;
-    private double dist;
+    private TrapezoidProfile m_profile;
+
 
     private final double tgt_pos;
     /**
@@ -49,16 +48,10 @@ public class MoveServo extends CommandBase
     @Override
     public void initialize()
     {   
-        start_pos = m_arm.getServoAngle0();
-        dist = tgt_pos - start_pos;
- 
-        //Negative distance don't seem to work with the library function????
-        //Easier to make distance positive and use m_dir to keep track of negative speed.
-        m_dir = (dist>0)?1:-1;
-        dist *= m_dir;          
+        double start_pos = m_arm.getServoAngle0();
         
-        m_goal = new TrapezoidProfile.State(dist, 0);
-        m_setpoint = new TrapezoidProfile.State(0, 0);
+        m_goal = new TrapezoidProfile.State(tgt_pos, 0);
+        m_setpoint = new TrapezoidProfile.State(start_pos, 0);
         m_endFlag = false;
     }
     /**
@@ -75,15 +68,16 @@ public class MoveServo extends CommandBase
     public void execute()
     {
         //Create a new profile to calculate the next setpoint(speed) for the profile
-        var profile = new TrapezoidProfile(m_constraints, m_goal, m_setpoint);
-        m_setpoint = profile.calculate(dT);
-        m_arm.setServoAngle0( m_setpoint.position*m_dir + start_pos);
 
-        if ((m_setpoint.position>=m_goal.position) ) {
-            //distance reached or end condition met. End the command
-            //This class should be modified so that the profile can end on other conditions like
-            //sensor value etc.
-            m_arm.setServoAngle0( m_setpoint.position*m_dir + start_pos);
+        m_profile = new TrapezoidProfile(m_constraints, m_goal, m_setpoint);
+        m_setpoint = m_profile.calculate(dT);
+
+        m_setpoint = m_profile.calculate(dT);
+        m_arm.setServoAngle1( m_setpoint.position);
+
+        if ((m_profile.isFinished(dT)) ) {
+            //distance reached End the command
+            //m_arm.setServoAngle0( m_goal.position);
             m_endFlag = true;
         }
     }

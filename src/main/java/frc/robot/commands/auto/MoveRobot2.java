@@ -5,42 +5,60 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //RobotContainer import
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Arm;
-//Subsystem imports
 
+//Subsystem imports
+import frc.robot.subsystems.OmniDrive;
 
 /**
  * SimpleDrive class
  * <p>
  * This class drives a motor 
  */
-public class MoveServo2 extends CommandBase
+public class MoveRobot2 extends CommandBase
 {
     //Grab the subsystem instance from RobotContainer
-    private final static Arm m_arm = RobotContainer.m_arm;
+    private final static OmniDrive m_drive = RobotContainer.m_omnidrive;
     private double dT = 0.02;
     private boolean m_endFlag = false;
+    private int m_profType;
     private TrapezoidProfile.Constraints m_constraints;
     private TrapezoidProfile.State m_goal;
     private TrapezoidProfile.State m_setpoint;
     private int m_dir;
-    private double start_pos;
-    private double dist;
 
-    private final double tgt_pos;
+    private final double _startSpeed;
+
     /**
      * This command moves the robot a certain distance following a trapezoidal speed profile.
      * <p>
      * 
-     * @param pos - target position
+     * @param type - 0, 1 or 2 for x, y, or w speed
+     * @param dist - distance to move (m/s or rad/s)
+     * @param startSpeed -  starting speed of robot
+     * @param endSpeed - ending speed of robot
      * @param maxSpeed - max speed of robot
      */
     //This move the robot a certain distance following a trapezoidal speed profile.
-    public MoveServo2(double pos, double maxSpeed)
+    public MoveRobot2(int type, double dist, double startSpeed, double endSpeed, double maxSpeed)
     {
-        m_constraints = new TrapezoidProfile.Constraints(maxSpeed, maxSpeed);
-        tgt_pos = pos;
+        _startSpeed = startSpeed;
+        m_profType = type;
+        if (type==2){
+            m_constraints = new TrapezoidProfile.Constraints(maxSpeed, 2.0*Math.PI);
+        }
+        else{
+            m_constraints = new TrapezoidProfile.Constraints(maxSpeed, 0.5);
+        }
+        
+        //Negative distance don't seem to work with the library function????
+        //Easier to make distance positive and use m_dir to keep track of negative speed.
+        m_dir = (dist>0)?1:-1;
+        dist *= m_dir;          
+        
+        m_goal = new TrapezoidProfile.State(dist, endSpeed);
 
+        //addRequirements(m_drive); // Adds the subsystem to the command
+     
     }
 
     /**
@@ -49,20 +67,12 @@ public class MoveServo2 extends CommandBase
     @Override
     public void initialize()
     {   
-        start_pos = m_arm.getServoAngle0();
-        dist = tgt_pos - start_pos;
- 
-        //Negative distance don't seem to work with the library function????
-        //Easier to make distance positive and use m_dir to keep track of negative speed.
-        m_dir = (dist>0)?1:-1;
-        dist *= m_dir;          
-        
-        m_goal = new TrapezoidProfile.State(dist, 0);
-        m_setpoint = new TrapezoidProfile.State(0, 0);
+        m_setpoint = new TrapezoidProfile.State(0, _startSpeed);
         m_endFlag = false;
     }
     /**
      * Condition to end speed profile
+     * Used by derived class to terminate the profile early
      */
     public boolean endCondition()
     {
@@ -77,13 +87,13 @@ public class MoveServo2 extends CommandBase
         //Create a new profile to calculate the next setpoint(speed) for the profile
         var profile = new TrapezoidProfile(m_constraints, m_goal, m_setpoint);
         m_setpoint = profile.calculate(dT);
-        m_arm.setServoAngle0( m_setpoint.position*m_dir + start_pos);
+        m_drive.setRobotSpeedType(m_profType, m_setpoint.velocity*m_dir);
 
-        if ((m_setpoint.position>=m_goal.position) ) {
+        if ((m_setpoint.position>=m_goal.position) || endCondition()) {
             //distance reached or end condition met. End the command
             //This class should be modified so that the profile can end on other conditions like
             //sensor value etc.
-            m_arm.setServoAngle0( m_setpoint.position*m_dir + start_pos);
+            m_drive.setRobotSpeedType(m_profType, m_goal.velocity*m_dir);
             m_endFlag = true;
         }
     }

@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.gamepad.OI;
@@ -59,9 +60,14 @@ public class TeleCmd extends CommandBase
         //Add code here to control servo motor etc.
 
         //m_omnidrive.setMotorOut012(s0,s1,s2);
-        m_arm.setServoAngle0( (w*150) + 150);
-        m_arm.setServoAngle1( (w*150) + 150);
-        m_omnidrive.setRobotSpeedXYW(x, y, w*Math.PI);
+        //m_arm.setServoAngle0( (w*150) + 150);
+        //m_arm.setServoAngle1( (w*150) + 150);
+        //m_omnidrive.setRobotSpeedXYW(x, y, w*Math.PI);
+//        Translation2d pos = new Translation2d(0.25, 0.25); //90,90
+ //     Translation2d pos = new Translation2d(0.25, 0); //60,120
+ //Translation2d pos = new Translation2d(0.25/Math.sqrt(2)+0.25, 0.25/Math.sqrt(2));//45,45
+        Translation2d pos = new Translation2d(x*0.4, y*0.4);
+        m_arm.setArmPos(pos);
 
     }
 
