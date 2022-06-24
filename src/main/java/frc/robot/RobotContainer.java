@@ -8,9 +8,12 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.TeleCmd;
 import frc.robot.commands.auto.AutoMainCmd;
+import frc.robot.commands.auto.MoveLeft;
+import frc.robot.commands.auto.MoveRight;
 import frc.robot.commands.gamepad.OI;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Menu;
@@ -37,6 +40,11 @@ public class RobotContainer {
 
       //Set the default command for the hardware subsytem
       //m_omnidrive.setDefaultCommand(m_teleCmd);
+
+      //Put test commands/tasks here for easy testing
+      //Run the robot in test mode
+      SmartDashboard.putData("MoveLeft", new MoveLeft());
+      SmartDashboard.putData("MoveRight", new MoveRight());
   }
 
   /**

@@ -4,7 +4,9 @@ package frc.robot.commands.gamepad;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.auto.MoveLeft;
+import frc.robot.commands.auto.MoveRight;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI
 {
     //Create the joystick
@@ -13,6 +15,7 @@ public class OI
     public Button buttonA;
     public Button buttonY;
 
+
     public OI()
     {
         //initialize the joystick 
@@ -20,6 +23,8 @@ public class OI
         buttonStart = new JoystickButton(drivePad, GamepadConstants.START_BUTTON);//.whenPressed( m_menu.GetCmd() );
         buttonA = new JoystickButton(drivePad, GamepadConstants.A_BUTTON);//.whenPressed( ()->{Globals.menuItem--;Globals.menuItem%=4;} );
         buttonY = new JoystickButton(drivePad, GamepadConstants.Y_BUTTON);//.whenPressed( ()->{Globals.menuItem++;Globals.menuItem%=4;});
+
+        
     }
 
     /**
