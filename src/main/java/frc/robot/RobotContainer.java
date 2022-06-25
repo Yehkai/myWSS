@@ -10,15 +10,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.TeleCmd;
-import frc.robot.commands.auto.AutoMainCmd;
-import frc.robot.commands.auto.MoveLeft;
-import frc.robot.commands.auto.MoveRight;
-import frc.robot.commands.gamepad.OI;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Menu;
-import frc.robot.subsystems.OmniDrive;
-import frc.robot.subsystems.Sensor;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.tele.*;
+import frc.robot.subsystems.*;
+
 
 public class RobotContainer {
 

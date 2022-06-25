@@ -1,13 +1,13 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
+
 // import the commands
 
 /**
- * DriveMotor class
+ * Auto mode main class
  * <p>
- * This class creates the inline auto command to drive the motor
+ * This class creates the auto command to drive the robot during autonomous mode
  */
 public class AutoMainCmd extends SequentialCommandGroup
 {   

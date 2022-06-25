@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-
-//Java imports
-
 //Vendor imports
 import com.kauailabs.navx.frc.AHRS;
 import com.studica.frc.TitanQuad;
@@ -21,7 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 //WPI imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.OmniDriveOdometry;
+import frc.robot.utils.OmniDriveOdometry;
 
 
 public class OmniDrive extends SubsystemBase

@@ -1,8 +1,6 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-// import the commands
-import frc.robot.commands.auto.MoveRobot;;
 
 /**
  * DriveMotor class

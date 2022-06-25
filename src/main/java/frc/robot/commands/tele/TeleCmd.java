@@ -1,13 +1,13 @@
-package frc.robot.commands;
+package frc.robot.commands.tele;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.commands.gamepad.OI;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.OmniDrive;
 import frc.robot.subsystems.Sensor;
 
+//This command will be run during teleop mode
 public class TeleCmd extends CommandBase
 {
     /**

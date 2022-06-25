@@ -99,7 +99,7 @@ public class Arm extends SubsystemBase {
      * Sets the arm tip (x,y) position
      * <p>
      * 
-     * @param degrees degree to set the servo to, range 0° - 300°
+     * @param pos (x,y) position of arm tip
      */
     public void setArmPos(Translation2d pos ) {
 

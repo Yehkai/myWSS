@@ -9,12 +9,8 @@ import edu.wpi.first.wpilibj2.command.SelectCommand;
 //WPI imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Globals;
-import frc.robot.commands.auto.MoveBack;
-import frc.robot.commands.auto.MoveCurve;
-import frc.robot.commands.auto.MoveLeft;
-import frc.robot.commands.auto.MoveRight;
-import frc.robot.commands.auto.MoveTest;
-import frc.robot.commands.gamepad.OI;
+import frc.robot.commands.auto.*;
+import frc.robot.commands.tele.OI;
 
 public class Menu extends SubsystemBase
 {

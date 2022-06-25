@@ -1,4 +1,4 @@
-package frc.robot.commands.gamepad;
+package frc.robot.commands.tele;
 
 //Import the joystick class
 import edu.wpi.first.wpilibj.Joystick;
