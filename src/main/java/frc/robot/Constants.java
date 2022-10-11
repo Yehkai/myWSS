@@ -22,12 +22,17 @@ public final class Constants
      */
     public static final int TITAN_ID        = 42; 
     public static final int MOTOR_NUM       = 3;
-    public static final int SERVO           = 0;
-    public static final int SERVO_C         = 1;
     
     /**
-     * IOs Constants
+     * Servo Motor Constants
      */
+    public static final int SERVO_0           = 0;
+    public static final int SERVO_1           = 1;
+    public static final int SERVO_2           = 2;
+
+    /**
+    * IOs Constants
+    */
     public static final int DEBUG_PIN       = 8;
     public static final int INPUT0          = 9;
     public static final int INPUT1          = 10;

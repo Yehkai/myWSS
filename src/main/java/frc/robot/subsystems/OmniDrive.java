@@ -296,6 +296,7 @@ public class OmniDrive extends SubsystemBase
 
         /**
          * Updates for outputs to the shuffleboard
+         * Unnecessary display should be removed during contest
          */
 
         //D_curHeading.setDouble(curHeading);
