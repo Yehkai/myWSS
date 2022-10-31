@@ -50,7 +50,7 @@ public class OmniControllerCommand extends CommandBase {
   private final static OmniDrive m_drive = RobotContainer.m_omnidrive;
   private ChassisSpeeds m_prevSpeeds;
   private double m_prevTime;
-  private Pose2d m_finalPose;
+  private Pose2d m_finalPose, m_prevPose;
 
   private final Trajectory m_trajectory;
   private final Pose2d m_pose;
@@ -112,6 +112,7 @@ public class OmniControllerCommand extends CommandBase {
 
     // Sample final pose to get robot rotation
     m_finalPose = m_trajectory.sample(m_trajectory.getTotalTimeSeconds()).poseMeters;
+    m_prevPose = initialState.poseMeters;
 
     var initialXVelocity = initialState.velocityMetersPerSecond
         * initialState.poseMeters.getRotation().getCos();
@@ -135,7 +136,7 @@ public class OmniControllerCommand extends CommandBase {
     var desiredState = m_trajectory.sample(curTime);
     var desiredPose = desiredState.poseMeters;
 
-    var poseError = desiredPose.relativeTo(m_pose);
+    var poseError = desiredPose.relativeTo(m_prevPose); //m_pose
 
     double targetXVel = m_xController.calculate(
         m_pose.getTranslation().getX(),
@@ -153,11 +154,12 @@ public class OmniControllerCommand extends CommandBase {
 
     double vRef = desiredState.velocityMetersPerSecond;
 
-    targetXVel += vRef * poseError.getRotation().getCos();
-    targetYVel += vRef * poseError.getRotation().getSin();
-    //targetXVel = vRef * poseError.getRotation().getCos();
-    //targetYVel = vRef * poseError.getRotation().getSin();
+    // targetXVel += vRef * poseError.getRotation().getCos();
+    // targetYVel += vRef * poseError.getRotation().getSin();
+    targetXVel = vRef * poseError.getRotation().getCos();
+    targetYVel = vRef * poseError.getRotation().getSin();
 
+    m_prevPose = desiredPose;
     m_prevSpeeds = new ChassisSpeeds(targetXVel, targetYVel, targetAngularVel);
     m_drive.setRobotSpeedXYW(targetXVel, targetYVel, targetAngularVel);
     m_prevTime = curTime;

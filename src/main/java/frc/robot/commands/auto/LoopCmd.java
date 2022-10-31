@@ -16,7 +16,7 @@ public class LoopCmd extends CommandBase
     //private final static OmniDrive m_drive = RobotContainer.m_omnidrive;
     private int state;
     private boolean m_endFlag;
-    private SequentialCommandGroup cmd;
+    private CommandBase cmd;
     private final end_func fn_ptr;
 
     // An interface is an abstract class. All methods are not defined.
@@ -31,12 +31,13 @@ public class LoopCmd extends CommandBase
      * @param cmdToRun - SequentialCommandGroup
      * @param fn - function that defines end condition for the loop
      */
-	public LoopCmd(SequentialCommandGroup cmdToRun, end_func fn)
+	public LoopCmd(CommandBase cmdToRun, end_func fn)
     {
         cmd = cmdToRun;
         fn_ptr = fn;
 
     }
+
     @Override
     public void initialize()
     {

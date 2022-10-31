@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 //WPI imports
@@ -25,6 +25,7 @@ public class Sensor extends SubsystemBase
     // Sensors
     private final DigitalInput input0, input1;
     private final AnalogInput IRsensor0;
+    private final Cobra cobra;
     private int i;
 
 
@@ -43,6 +44,7 @@ public class Sensor extends SubsystemBase
         input0 = new DigitalInput(Constants.INPUT0);
         input1 = new DigitalInput(Constants.INPUT1);
         IRsensor0 = new AnalogInput(0);
+        cobra = new Cobra();
     }
 
     /**
@@ -93,6 +95,12 @@ public class Sensor extends SubsystemBase
         D_input1Disp.setBoolean(input1.get());
         D_cntDisp.setNumber(i);
         D_IRsensor.setNumber(getIRDistance());
-
+        // System.out.println("Start Time: " + Timer.getFPGATimestamp() + "s");
+        // System.out.println("Cobra 0: " + cobra.getRawValue(0));
+        // System.out.println("Cobra 1: " + cobra.getRawValue(1));
+        // System.out.println("Cobra 2: " + cobra.getRawValue(2));
+        // System.out.println("Cobra 3: " + cobra.getRawValue(3));
+        // System.out.println("End Time: " + Timer.getFPGATimestamp() + "s");
+        
     }
 }

@@ -64,7 +64,7 @@ public class TeleCmd extends CommandBase
         //m_arm.setServoAngle1( y*300);
         //m_arm.setServoAngle0( m_arm.getSliderOffset0());
         //m_arm.setServoAngle1( m_arm.getSliderOffset1());
-        //m_omnidrive.setRobotSpeedXYW(x, y, w*Math.PI);
+        m_omnidrive.setRobotSpeedXYW(x, y, w*Math.PI);
 //        Translation2d pos = new Translation2d(0.25, 0.25); //90,90
  //     Translation2d pos = new Translation2d(0.25, 0); //60,120
  //Translation2d pos = new Translation2d(0.25/Math.sqrt(2)+0.25, 0.25/Math.sqrt(2));//45,45

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 //WPI imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Astar.Layout;
 import frc.robot.utils.OmniDriveOdometry;
 
 
@@ -40,7 +41,7 @@ public class OmniDrive extends SubsystemBase
     private double[] wheelSpeeds;
     private double curHeading, targetHeading;
     private double[] motorOuts;
-    
+    private int initCnt;
     // Odometry class for tracking robot pose
     private final OmniDriveOdometry m_odometry;
     
@@ -95,8 +96,8 @@ public class OmniDrive extends SubsystemBase
         // x, y and w speed controler
         pidControllers = new PIDController[Constants.PID_NUM];
         //Speed control
-        pidControllers[0] = new PIDController(1.2,24.0,0.00, pid_dT);  //x
-        pidControllers[1] = new PIDController(1.2,24.0,0.00, pid_dT);  //y 2.0,32.0,0.02
+        pidControllers[0] = new PIDController(0.4,12.0,0.00, pid_dT);  //x
+        pidControllers[1] = new PIDController(0.4,12.0,0.00, pid_dT);  //y 2.0,32.0,0.02
         pidControllers[2] = new PIDController(2.0,0.0,0.1, pid_dT);    //w
         pidControllers[2].enableContinuousInput(-Math.PI, Math.PI);
 
@@ -109,7 +110,7 @@ public class OmniDrive extends SubsystemBase
         gyro.zeroYaw();
         curHeading = targetHeading = getYawRad();
 
-        m_odometry = new OmniDriveOdometry( new Pose2d(0.0, 0.0, new Rotation2d(0.0)));
+        m_odometry = new OmniDriveOdometry( Layout.Convert_mm_Pose2d(Layout.startPos));
 
     }
 
@@ -272,20 +273,20 @@ public class OmniDrive extends SubsystemBase
         }   
         outDebug8.set(false);
    }
+
+   public void initialise(){
+        m_odometry.resetPosition(Layout.Convert_mm_Pose2d(Layout.startPos));
+        gyro.zeroYaw();
+        curHeading = targetHeading = getYawRad();
+   }
     /**
      * Code that runs once every robot loop
      */
-    int initCnt=0;
     @Override
     public void periodic()
     {
        // System.out.println("Omni");
-        if (initCnt<1) {
-            initCnt++;
-            gyro.zeroYaw();
-            curHeading = targetHeading = getYawRad();
-            return;
-        }
+       initCnt++;
 
         if (!Constants.PID_THREAD ) {
             doPID();

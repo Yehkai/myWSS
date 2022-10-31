@@ -43,7 +43,7 @@ public class RobotContainer {
     // m_omnidrive.setDefaultCommand(m_teleCmd);
     m_layout = new Layout();
     m_Grid = new Grid(m_layout);
-    m_Grid.ExpandObstacles(150);
+    m_Grid.ExpandObstacles(200);
 
     // Create solver
     m_Astar = new AStarAlgorithm(m_Grid);
